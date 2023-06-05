@@ -396,3 +396,8 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+[Dd]ocker/certificates/*.*
+[Dd]ocker/mssql/*.*
+[Dd]ocker/certificates/*
+[Dd]ocker/mssql/*

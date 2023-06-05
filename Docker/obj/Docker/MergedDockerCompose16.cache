@@ -1,0 +1,85 @@
+name: dockercompose12801568083792086672
+services:
+  authserver.web:
+    build:
+      context: /Users/igor/Projects/AuthServer1/Docker
+      dockerfile: ../AuthServer.Web/Dockerfile
+      labels:
+        com.microsoft.created-by: visual-studio
+        com.microsoft.visual-studio.project-name: AuthServer.Web
+      target: base
+    container_name: AuthServer
+    entrypoint:
+    - tail
+    - -f
+    - /dev/null
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_Kestrel__Certificates__Default__Password: "33731801"
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /app/cert/cert.pfx
+      ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS: "true"
+      ASPNETCORE_URLS: https://+:443#;http://+:80
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+      NUGET_FALLBACK_PACKAGES: ""
+    image: authserverweb:dev
+    labels:
+      com.microsoft.visualstudio.debuggee.arguments: ' --additionalProbingPath /root/.nuget/packages  "/app/bin/Debug/net7.0/AuthServer.Web.dll"'
+      com.microsoft.visualstudio.debuggee.killprogram: /bin/sh -c "if PID=$$(pidof
+        dotnet); then kill $$PID; fi"
+      com.microsoft.visualstudio.debuggee.program: dotnet
+      com.microsoft.visualstudio.debuggee.workingdirectory: /app
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      published: "80"
+      protocol: tcp
+    - mode: ingress
+      target: 443
+      published: "4000"
+      protocol: tcp
+    tty: true
+    volumes:
+    - type: bind
+      source: /Users/igor/Projects/AuthServer1/AuthServer.Web
+      target: /app
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /Users/igor/Projects/AuthServer1/Docker/certificates
+      target: /app/cert
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /Users/igor/vsdbg/vs2017u5
+      target: /remote_debugger
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /Users/igor/.nuget/packages/
+      target: /root/.nuget/packages
+      read_only: true
+      bind:
+        create_host_path: true
+    - type: bind
+      source: /Users/igor/Projects/AuthServer1/Docker
+      target: /src
+      bind:
+        create_host_path: true
+  sql-server:
+    container_name: sql-server
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: VERYSTR0NGSECRETSQL!123
+    image: mcr.microsoft.com/azure-sql-edge
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 1433
+      published: "1433"
+      protocol: tcp
+networks:
+  default:
+    name: dockercompose12801568083792086672_default
