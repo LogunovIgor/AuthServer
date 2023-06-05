@@ -2,7 +2,16 @@ version: '3.4'
 
 services:
   authserver.web:
-    image: ${DOCKER_REGISTRY-}authserverweb
     build:
       context: .
       dockerfile: AuthServer.Web/Dockerfile
+    container_name: AuthServer
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80;https://+:443
+    ports:
+      - "80:80"
+      - "4000:443"
+    volumes:
+      - /Users/igor/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
+      - /Users/igor/.aspnet/https:/root/.aspnet/https:ro
