@@ -399,5 +399,5 @@ FodyWeavers.xsd
 
 #Docker/certificates/*.*
 #Docker/mssql/*.*
-#Docker/certificates/
-#Docker/mssql/
+#Docker/certificates/*/
+#Docker/mssql/*/
