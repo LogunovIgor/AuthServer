@@ -1,0 +1,37 @@
+﻿version: '3.4'
+
+services:
+  authserver-app-development:
+    build:
+      context: ../
+      dockerfile: AuthServer.Web/Dockerfile
+    container_name: AuthServer-Application-Development
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=./dev-cert.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=111111111
+      - ASPNETCORE_URLS=https://+:30010;http://+:3001
+    ports:
+      - "3001:3001"
+      - "30010:30010"
+    networks:
+      - authserver-development-network
+
+  authserver-sql-development:
+    container_name: AuthServer-Sql-Development
+    image: mcr.microsoft.com/azure-sql-edge
+    ports:
+      - "1431:1431"
+    environment:
+      - "ACCEPT_EULA=1"
+      - "MSSQL_SA_PASSWORD=HardDevelopmentPassw0rd1!"
+    volumes:
+      - "./data/development/mssql/data/:/var/opt/mssql/data/"
+      - "./data/development/mssql/log/:/var/opt/mssql/log/"
+      - "./data/development/mssql/secrets/:/var/opt/mssql/secrets/"
+    networks:
+      - authserver-development-network
+
+networks:
+  authserver-development-network:
+     name: authserver-development-network
