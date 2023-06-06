@@ -5,7 +5,7 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.Web", "AuthServer.Web\AuthServer.Web.csproj", "{DF79AE17-757D-45AD-BAB7-F66DFF634855}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{ADF06EBB-CEFC-44DC-AD71-1A554A06FD00}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "Docker\docker-compose.dcproj", "{ADF06EBB-CEFC-44DC-AD71-1A554A06FD00}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.Domain", "AuthServer.Domain\AuthServer.Domain.csproj", "{85726403-0CC6-4FF4-A5C8-74AD6064D446}"
 EndProject
