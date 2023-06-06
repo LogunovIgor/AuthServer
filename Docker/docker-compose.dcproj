@@ -9,7 +9,8 @@
     <DockerServiceName>authserver.web</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="docker-compose.yml" />
+    <None Include="docker-compose.Production.yml" />
     <None Include=".dockerignore" />
+    <None Include="docker-compose.yml" />
   </ItemGroup>
 </Project>
