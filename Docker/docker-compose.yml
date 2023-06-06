@@ -1,34 +1,37 @@
-version: '3.4'
+﻿version: '3.4'
 
 services:
-  authserver.web:
+  authserver-app-development:
     build:
-      context: .
-      dockerfile: ../AuthServer.Web/Dockerfile
-    container_name: AuthServer
+      context: ../
+      dockerfile: AuthServer.Web/Dockerfile
+    container_name: AuthServer-Application-Development
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=https://+:443#;http://+:80
-      - ASPNETCORE_Kestrel__Certificates__Default__Path=/app/cert/cert.pfx
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=33731801
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=./dev-cert.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=111111111
+      - ASPNETCORE_URLS=https://+:30010;http://+:3001
     ports:
-      - "80:80"
-      - "4000:443"
-    volumes:
-#     - /Users/igor/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro
-#     - /Users/igor/.aspnet/https:/root/.aspnet/https:ro
-      - ./certificates/:/app/cert/
-      - ./application/:/app/
+      - "3001:3001"
+      - "30010:30010"
+    networks:
+      - authserver-development-network
 
-  sql-server:
-    container_name: sql-server
+  authserver-sql-development:
+    container_name: AuthServer-Sql-Development
     image: mcr.microsoft.com/azure-sql-edge
     ports:
-      - "1433:1433"
+      - "1431:1431"
     environment:
       - "ACCEPT_EULA=1"
-      - "MSSQL_SA_PASSWORD=SU2orange!"
+      - "MSSQL_SA_PASSWORD=HardDevelopmentPassw0rd1!"
     volumes:
-      - "./mssql/data/:/var/opt/mssql/data/"
-      - "./mssql/log/:/var/opt/mssql/log/"
-      - "./mssql/secrets/:/var/opt/mssql/secrets/"
+      - "./data/development/mssql/data/:/var/opt/mssql/data/"
+      - "./data/development/mssql/log/:/var/opt/mssql/log/"
+      - "./data/development/mssql/secrets/:/var/opt/mssql/secrets/"
+    networks:
+      - authserver-development-network
+
+networks:
+  authserver-development-network:
+     name: authserver-development-network
